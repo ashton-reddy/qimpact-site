@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QImpact.fm</title>
+<meta name="description" content="QImpact: a podcast on how quantum technologies create real-world impact, hosted by Ashton Reddy, a Phillips Exeter Academy student and founder of the Exeter Quantum Computing Club.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a cryostat-navy hero band with the gold dilution-fridge "chandelier" as the image and qubit cyan as the accent; below, colour-coded episode cards by impact area, then host and contact. */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #0f1b2c;
+  --muted: #4c5a6c;
+  --rule: #d5dce5;
+  --accent: #0a7aa3;
+  --night: #0b1626;
+  --night-2: #13233b;
+  --night-ink: #eef2f8;
+  --night-muted: #a9b6c8;
+  --night-accent: #4cc9f0;
+  --c-sec: #6a4bd6;
+  --c-sense: #0e8f84;
+  --c-health: #d9475d;
+  --c-chem: #3f8a33;
+  --c-money: #2c66cc;
+  --c-found: #b97f12;
+  --on-color: #ffffff;
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1724; --surface: #152234; --ink: #e6ebf2; --muted: #9aa8ba; --rule: #26344a; --accent: #4cc9f0;
+    --night: #070e19; --night-2: #101d31;
+    --c-sec: #7d62e6; --c-sense: #14a597; --c-health: #e2596e; --c-chem: #4f9e42; --c-money: #3f7ae0; --c-found: #c99224;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1724; --surface: #152234; --ink: #e6ebf2; --muted: #9aa8ba; --rule: #26344a; --accent: #4cc9f0;
+  --night: #070e19; --night-2: #101d31;
+  --c-sec: #7d62e6; --c-sense: #14a597; --c-health: #e2596e; --c-chem: #4f9e42; --c-money: #3f7ae0; --c-found: #c99224;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.65 var(--body); margin: 0; }
+.wrap { max-width: 1060px; margin-inline: auto; padding-inline: 20px; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--night-accent); outline-offset: 3px; }
+.label { font: 500 .76rem/1.2 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+
+/* ---------- Hero band ---------- */
+.band {
+  background:
+    radial-gradient(60% 70% at 78% 55%, rgba(76,201,240,.16), transparent 70%),
+    radial-gradient(50% 60% at 10% 0%, rgba(44,102,204,.35), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%);
+  color: var(--night-ink);
+}
+header.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; }
+.mark { font: 800 1.35rem/1 var(--display); letter-spacing: -.02em; text-decoration: none; color: var(--night-ink); }
+.mark span { color: var(--night-accent); }
+nav { display: flex; gap: 20px; flex-wrap: wrap; font: 500 .78rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+nav a { text-decoration: none; color: var(--night-muted); }
+nav a:hover { color: var(--night-ink); }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 32px; align-items: center; padding-block: 36px 56px; }
+.hero-copy { display: grid; gap: 24px; min-width: 0; }
+.ket { font: 500 .85rem/1 var(--mono); color: var(--night-accent); letter-spacing: .04em; }
+h1 { font: 800 clamp(2.4rem, 6.2vw, 4.6rem)/1 var(--display); letter-spacing: -.04em; margin: 0; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--night-accent); }
+.lede { font-size: 1.18rem; color: var(--night-muted); max-width: 54ch; margin: 0; }
+.lede strong { color: var(--night-ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; padding: 13px 20px; border-radius: 999px; text-decoration: none; font: 600 .95rem/1 var(--body); border: 1px solid rgba(238,242,248,.35); color: var(--night-ink); }
+.btn.primary { background: var(--night-accent); border-color: var(--night-accent); color: #062033; }
+.btn:hover { border-color: var(--night-ink); }
+.launch { font: 500 .82rem/1.5 var(--mono); color: var(--night-muted); }
+.art { width: 100%; max-width: 360px; justify-self: center; }
+.art svg { width: 100%; height: auto; display: block; }
+.glow { animation: pulse 3.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes pulse { 50% { opacity: .45; } }
+.float { animation: drift 6s ease-in-out infinite; }
+.float.b { animation-delay: -3s; }
+@keyframes drift { 50% { transform: translateY(-8px); } }
+
+/* Impact Clock inside the band */
+.clock { border-top: 1px solid rgba(238,242,248,.14); padding-block: 30px 44px; }
+.clock-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.clock .label { color: var(--night-muted); }
+.clock .label b { color: var(--night-accent); font-weight: 500; }
+.scale { position: relative; margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); }
+.scale::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, #2fc4a0, #e2b45f 40%, #ef7a5a 70%, #8f7bf0);
+}
+.stop { position: relative; padding-top: 32px; min-width: 0; }
+.stop::before { content: ""; position: absolute; top: 2px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--night); border: 3px solid var(--dot); }
+.stop:nth-child(2) { --dot: #2fc4a0; } .stop:nth-child(3) { --dot: #e2b45f; } .stop:nth-child(4) { --dot: #ef7a5a; } .stop:nth-child(5) { --dot: #8f7bf0; }
+.stop b { display: block; font: 600 1.05rem/1.2 var(--display); color: var(--night-ink); }
+.stop small { display: block; color: var(--night-muted); font-size: .85rem; line-height: 1.4; padding-right: 12px; }
+.needle { position: absolute; top: -2px; left: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--night-ink); box-shadow: 0 0 0 6px rgba(238,242,248,.15); animation: sweep 10s ease-in-out infinite; }
+@keyframes sweep { 0%, 12% { left: 0; } 25%, 37% { left: 25%; } 50%, 62% { left: 50%; } 75%, 87% { left: 75%; } 100% { left: 0; } }
+.clock p { color: var(--night-muted); max-width: 62ch; margin: 22px 0 0; }
+
+@media (prefers-reduced-motion: reduce) { .needle, .glow, .float { animation: none; } .needle { left: 25%; } }
+
+/* ---------- Sections ---------- */
+section { padding-block: 64px; }
+h2 { font: 800 clamp(1.8rem, 4vw, 2.6rem)/1.05 var(--display); letter-spacing: -.025em; margin: 6px 0 12px; text-wrap: balance; }
+.intro { max-width: 62ch; color: var(--muted); margin: 0; }
+
+/* Area legend */
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 .74rem/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 7px 10px; border-radius: 999px; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--ink); }
+.chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+
+/* Episode cards */
+.eps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.ep { background: var(--surface); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--rule); }
+.tile { background: var(--c); color: var(--on-color); position: relative; height: 128px; display: flex; align-items: flex-end; justify-content: space-between; padding: 16px 18px; overflow: hidden; }
+.tile::after { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 120% at 100% 0%, rgba(255,255,255,.28), transparent 60%); pointer-events: none; }
+.tile .num { font: 800 3.2rem/0.8 var(--display); letter-spacing: -.04em; opacity: .95; position: relative; z-index: 1; }
+.tile svg { width: 64px; height: 64px; position: relative; z-index: 1; }
+.ep-body { padding: 16px 18px 20px; display: grid; gap: 8px; align-content: start; }
+.ep-meta { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.ep-meta .when { font: 500 .74rem/1 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.ep h3 { margin: 0; font: 600 1.2rem/1.2 var(--display); }
+.ep p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.ep.first { box-shadow: 0 0 0 2px var(--accent); }
+.ep.first .when { color: var(--accent); }
+.sec { --c: var(--c-sec); } .sense { --c: var(--c-sense); } .health { --c: var(--c-health); }
+.chem { --c: var(--c-chem); } .money { --c: var(--c-money); } .found { --c: var(--c-found); }
+
+/* Host */
+.host-sec { background: var(--surface); border-block: 1px solid var(--rule); }
+.host { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); gap: 44px; align-items: center; }
+.portrait { border-radius: 20px; overflow: hidden; background: var(--night); aspect-ratio: 4 / 5; max-width: 100%; position: relative; }
+.portrait svg { width: 100%; height: 100%; display: block; }
+.portrait .cap { position: absolute; left: 18px; bottom: 16px; right: 18px; color: var(--night-ink); }
+.portrait .cap b { display: block; font: 800 2.4rem/1 var(--display); letter-spacing: -.03em; }
+.portrait .cap span { font: 500 .74rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--night-accent); }
+.facts { display: grid; gap: 14px; margin: 22px 0 0; padding: 0; list-style: none; }
+.facts li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 12px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.facts .label { padding-top: 4px; }
+.li-btn { display: inline-flex; margin-top: 24px; padding: 12px 18px; border-radius: 999px; background: var(--c-money); color: var(--on-color); text-decoration: none; font: 600 .95rem/1 var(--body); }
+.li-btn:hover { filter: brightness(1.08); }
+.portrait .cap b { font-size: clamp(1.8rem, 5vw, 2.4rem); }
+
+/* Listen + contact */
+.listen { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; align-items: center; }
+.cover { width: 100%; max-width: 200px; aspect-ratio: 1; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px -18px rgba(11,22,38,.55); }
+.cover svg { width: 100%; height: 100%; display: block; }
+.platforms { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.platforms span { font: 600 .9rem/1 var(--body); padding: 11px 16px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); }
+.contact { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
+.box { border-radius: 16px; padding: 24px; display: grid; gap: 10px; align-content: start; background: var(--surface); border: 1px solid var(--rule); }
+.box.accent { background: color-mix(in srgb, var(--c-sense) 12%, var(--surface)); border-color: color-mix(in srgb, var(--c-sense) 35%, var(--rule)); }
+.box.accent2 { background: color-mix(in srgb, var(--c-sec) 10%, var(--surface)); border-color: color-mix(in srgb, var(--c-sec) 30%, var(--rule)); }
+.box h3 { margin: 0; font: 600 1.25rem/1.2 var(--display); }
+.box p { margin: 0; color: var(--muted); font-size: .98rem; }
+.email { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 6px; }
+.email code { font: 500 1rem/1 var(--mono); user-select: all; }
+.copy { font: 500 .74rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 9px 14px; cursor: pointer; }
+
+footer { background: var(--night); color: var(--night-muted); font-size: .85rem; padding-block: 28px; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+footer b { color: var(--night-ink); font-family: var(--display); }
+
+@media (max-width: 880px) { .eps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .hero, .host, .contact, .listen { grid-template-columns: minmax(0, 1fr); }
+  .art { max-width: 240px; order: -1; }
+  .eps { grid-template-columns: minmax(0, 1fr); }
+  .stop b { font-size: .9rem; }
+  .stop small { display: none; }
+  .facts li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .portrait { max-width: 360px; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-lock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="21" width="28" height="20" rx="4"/><path d="M16 21v-6a8 8 0 0 1 16 0v6"/><circle cx="24" cy="31" r="2.5" fill="currentColor"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="17"/><path d="M30 18l-4 10-8 2 4-10z" fill="currentColor"/><path d="M24 4v4M24 40v4M4 24h4M40 24h4"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26h9l4-10 6 20 5-14 3 4h13"/></symbol>
+    <symbol id="i-molecule" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8l13 7.5v15L24 38l-13-7.5v-15z"/><circle cx="24" cy="8" r="3" fill="currentColor"/><circle cx="37" cy="30.5" r="3" fill="currentColor"/><circle cx="11" cy="30.5" r="3" fill="currentColor"/><path d="M37 30.5l6 4"/></symbol>
+    <symbol id="i-sprout" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42V22"/><path d="M24 24c0-8-6-13-15-13 0 8 6 13 15 13z"/><path d="M24 20c0-6 5-10 13-10 0 6-5 10-13 10z"/><path d="M12 42h24"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="15" width="32" height="18" rx="3"/><path d="M42 21v6"/><path d="M23 18l-5 7h7l-4 6" /></symbol>
+    <symbol id="i-chart" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 40h36"/><rect x="10" y="26" width="6" height="14"/><rect x="21" y="18" width="6" height="22"/><rect x="32" y="10" width="6" height="30"/></symbol>
+    <symbol id="i-code" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="30" r="5"/><circle cx="24" cy="30" r="5"/><circle cx="38" cy="30" r="5"/><path d="M15 30h4M29 30h4"/><path d="M17 14h14M24 14v11"/><circle cx="24" cy="12" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="25" r="16"/><path d="M24 15v10l7 5"/><path d="M19 5h10"/></symbol>
+    <symbol id="i-dome" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20a14 10 0 0 1 28 0z"/><path d="M24 6v4"/><path d="M8 20h32M12 24v12M20 24v12M28 24v12M36 24v12M6 40h36"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18l20-9 20 9-20 9z"/><path d="M12 22v9c0 3 5 6 12 6s12-3 12-6v-9"/><path d="M44 18v11"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34a18 18 0 0 1 36 0"/><path d="M24 34l9-12"/><circle cx="24" cy="34" r="3" fill="currentColor"/><path d="M10 26l3 1.5M38 26l-3 1.5M24 16v3"/></symbol>
+  </defs>
+</svg>
+
+<div class="band">
+  <header class="top wrap">
+    <a class="mark" href="#top">Q<span>Impact</span>.fm</a>
+    <nav aria-label="Sections">
+      <a href="#episodes">Episodes</a>
+      <a href="#host">Host</a>
+      <a href="#listen">Listen</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="wrap hero" id="top">
+    <div class="hero-copy">
+      <div class="ket">|lab⟩ → |world⟩</div>
+      <h1>Where quantum <em>leaves the lab.</em></h1>
+      <p class="lede">A podcast about how quantum technologies create real-world impact. Phillips Exeter student researcher <strong>Ashton Reddy</strong> asks scientists and builders one question: <strong>what real problem does this solve, and when?</strong></p>
+      <div class="cta">
+        <a class="btn primary" href="#episodes">See Season 1</a>
+        <a class="btn" href="#contact">Be a guest</a>
+      </div>
+      <span class="launch">Trailer Dec 15, 2026 · Episode 1 Jan 12, 2027 · then monthly</span>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <!-- Dilution refrigerator "chandelier": the gold stages that cool a quantum chip to near absolute zero -->
+      <svg viewBox="0 0 360 440">
+        <defs>
+          <linearGradient id="g-gold" x1="0" x2="1">
+            <stop offset="0" stop-color="#9c6b1e"/><stop offset=".45" stop-color="#f3d08a"/><stop offset="1" stop-color="#a87422"/>
+          </linearGradient>
+          <radialGradient id="g-chip"><stop offset="0" stop-color="#9fe8ff"/><stop offset=".5" stop-color="#3fa9ff" stop-opacity=".6"/><stop offset="1" stop-color="#3fa9ff" stop-opacity="0"/></radialGradient>
+        </defs>
+        <g stroke="#c9a25a" stroke-width="2" opacity=".85">
+          <line x1="110" y1="40" x2="130" y2="130"/><line x1="250" y1="40" x2="230" y2="130"/>
+          <line x1="140" y1="140" x2="150" y2="220"/><line x1="220" y1="140" x2="210" y2="220"/>
+          <line x1="158" y1="230" x2="164" y2="300"/><line x1="202" y1="230" x2="196" y2="300"/>
+          <line x1="170" y1="310" x2="172" y2="360"/><line x1="190" y1="310" x2="188" y2="360"/>
+        </g>
+        <g stroke="#7fb6ff" stroke-width="1.4" fill="none" opacity=".7">
+          <path d="M150 40 C150 90 160 100 160 140 S170 200 172 230 S176 290 178 310 S180 350 180 362"/>
+          <path d="M180 40 C180 120 182 200 182 362"/>
+          <path d="M210 40 C210 90 200 100 200 140 S190 200 188 230 S184 290 182 310 S180 350 180 362"/>
+        </g>
+        <rect x="80" y="26" width="200" height="16" rx="4" fill="url(#g-gold)"/>
+        <rect x="116" y="128" width="128" height="14" rx="4" fill="url(#g-gold)"/>
+        <rect x="138" y="218" width="84" height="13" rx="4" fill="url(#g-gold)"/>
+        <rect x="154" y="298" width="52" height="12" rx="4" fill="url(#g-gold)"/>
+        <circle class="glow" cx="180" cy="372" r="44" fill="url(#g-chip)"/>
+        <rect x="166" y="358" width="28" height="28" rx="3" fill="#0b1626" stroke="#9fe8ff" stroke-width="2"/>
+        <g fill="#9fe8ff"><circle cx="174" cy="366" r="2.2"/><circle cx="186" cy="366" r="2.2"/><circle cx="174" cy="378" r="2.2"/><circle cx="186" cy="378" r="2.2"/></g>
+        <g font-family="JetBrains Mono, monospace" font-size="15" fill="#4cc9f0">
+          <text class="float" x="20" y="200">|0⟩</text>
+          <text class="float b" x="296" y="250">|1⟩</text>
+          <text class="float b" x="34" y="330" fill="#a9b6c8" font-size="12">10 mK</text>
+          <text class="float" x="280" y="110" fill="#a9b6c8" font-size="12">300 K</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="clock" aria-labelledby="clock-title">
+      <div class="clock-head">
+        <span class="label" id="clock-title"><b>The Impact Clock</b></span>
+        <span class="label">Every guest places their technology</span>
+      </div>
+      <div class="scale" role="img" aria-label="Impact Clock scale: in use today, under 5 years, 5 to 10 years, 10 or more years">
+        <span class="needle" aria-hidden="true"></span>
+        <div class="stop"><b>In use today</b><small>Deployed, paying customers</small></div>
+        <div class="stop"><b>Under 5 years</b><small>Pilots working, scaling next</small></div>
+        <div class="stop"><b>5–10 years</b><small>Proven in the lab, engineering left</small></div>
+        <div class="stop"><b>10+ years</b><small>Needs large error-corrected machines</small></div>
+      </div>
+      <p>Each episode ends with the guest placing their work on this scale. We keep the scoreboard, and in the season finale past guests come back to check who was right.</p>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="episodes">
+    <div class="wrap">
+      <span class="label">Season 1 · 12 episodes · second Tuesday of each month</span>
+      <h2>Twelve questions about real impact</h2>
+      <p class="intro">Planned topics. Guests are announced as episodes are recorded.</p>
+      <div class="legend">
+        <span class="chip sec">Security</span><span class="chip sense">Sensing</span><span class="chip health">Health</span>
+        <span class="chip chem">Chemistry &amp; materials</span><span class="chip money">Money &amp; policy</span><span class="chip found">Foundations &amp; people</span>
+      </div>
+      <ol class="eps">
+        <li class="ep sec first"><div class="tile"><span class="num">01</span><svg><use href="#i-lock"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip sec">Security</span><span class="when">Jan 2027</span></div><h3>Q-Day</h3><p>When could quantum computers break today's encryption, and is the world ready?</p></div></li>
+        <li class="ep sense"><div class="tile"><span class="num">02</span><svg><use href="#i-compass"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip sense">Sensing</span><span class="when">Feb 2027</span></div><h3>Navigating without GPS</h3><p>Can quantum sensors guide ships and planes when GPS is jammed?</p></div></li>
+        <li class="ep health"><div class="tile"><span class="num">03</span><svg><use href="#i-pulse"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip health">Health</span><span class="when">Mar 2027</span></div><h3>Reading the brain and heart</h3><p>How are quantum magnetometers changing brain and heart scans?</p></div></li>
+        <li class="ep health"><div class="tile"><span class="num">04</span><svg><use href="#i-molecule"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip health">Health</span><span class="when">Apr 2027</span></div><h3>Drug discovery, honestly</h3><p>What can quantum do for medicine design that classical computers cannot?</p></div></li>
+        <li class="ep chem"><div class="tile"><span class="num">05</span><svg><use href="#i-sprout"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip chem">Chemistry</span><span class="when">May 2027</span></div><h3>Feeding the planet</h3><p>Could quantum simulation crack low-energy fertilizer and better catalysts?</p></div></li>
+        <li class="ep chem"><div class="tile"><span class="num">06</span><svg><use href="#i-battery"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip chem">Materials</span><span class="when">Jun 2027</span></div><h3>Better batteries</h3><p>Will quantum simulation design the next battery chemistry?</p></div></li>
+        <li class="ep money"><div class="tile"><span class="num">07</span><svg><use href="#i-chart"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip money">Money</span><span class="when">Jul 2027</span></div><h3>Quantum and money</h3><p>Where do banks see real value: risk, optimization, or security?</p></div></li>
+        <li class="ep found"><div class="tile"><span class="num">08</span><svg><use href="#i-code"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip found">Foundations</span><span class="when">Aug 2027</span></div><h3>The road to useful</h3><p>Why error correction decides when any of this arrives.</p></div></li>
+        <li class="ep sense"><div class="tile"><span class="num">09</span><svg><use href="#i-clock"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip sense">Sensing</span><span class="when">Sep 2027</span></div><h3>Time itself</h3><p>How optical atomic clocks underpin power grids, telecom and markets.</p></div></li>
+        <li class="ep money"><div class="tile"><span class="num">10</span><svg><use href="#i-dome"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip money">Policy</span><span class="when">Oct 2027</span></div><h3>Who's paying and why</h3><p>What national quantum strategies are buying, and the security stakes.</p></div></li>
+        <li class="ep found"><div class="tile"><span class="num">11</span><svg><use href="#i-cap"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip found">People</span><span class="when">Nov 2027</span></div><h3>Quantum careers</h3><p>Who gets hired, and do you need a PhD?</p></div></li>
+        <li class="ep sec"><div class="tile"><span class="num">12</span><svg><use href="#i-gauge"/></svg></div><div class="ep-body"><div class="ep-meta"><span class="chip sec">Finale</span><span class="when">Dec 2027</span></div><h3>Hype audit</h3><p>Past guests revisit the Impact Clock scoreboard. Who was right?</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="host" class="host-sec">
+    <div class="wrap host">
+      <div class="portrait">
+        <!-- Placeholder art until a real photo of Ashton is added: a 3-qubit repetition code with its two syndrome checks -->
+        <svg viewBox="0 0 400 500" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="500" fill="#0b1626"/>
+          <circle cx="300" cy="120" r="160" fill="#2c66cc" opacity=".25"/>
+          <circle cx="80" cy="360" r="140" fill="#4cc9f0" opacity=".12"/>
+          <g stroke="#a9b6c8" stroke-width="2" opacity=".6"><line x1="90" y1="200" x2="310" y2="200"/><line x1="145" y1="200" x2="145" y2="120"/><line x1="255" y1="200" x2="255" y2="120"/></g>
+          <g fill="#0b1626" stroke="#4cc9f0" stroke-width="3"><circle cx="90" cy="200" r="24"/><circle cx="200" cy="200" r="24"/><circle cx="310" cy="200" r="24"/></g>
+          <g fill="#14a597"><rect x="129" y="104" width="32" height="32" rx="6"/><rect x="239" y="104" width="32" height="32" rx="6"/></g>
+          <g font-family="JetBrains Mono, monospace" font-size="15" fill="#eef2f8" text-anchor="middle"><text x="90" y="205">q0</text><text x="200" y="205">q1</text><text x="310" y="205">q2</text></g>
+          <g font-family="JetBrains Mono, monospace" font-size="12" fill="#0b1626" text-anchor="middle"><text x="145" y="124">s1</text><text x="255" y="124">s2</text></g>
+        </svg>
+        <div class="cap"><span>Host</span><b>Ashton Reddy</b></div>
+      </div>
+      <div>
+        <span class="label">Why this show</span>
+        <h2>Asking the questions a curious outsider would</h2>
+        <p class="intro">Ashton Reddy is a junior at Phillips Exeter Academy and founder of the Exeter Quantum Computing Club. He came to quantum through error-correction research. Most quantum conversations are about qubit counts and funding rounds. This one starts with the problem: a patient's scan, a jammed GPS signal, a bank's security, a farm's fertilizer bill.</p>
+        <ul class="facts">
+          <li><span class="label">School</span><span>Phillips Exeter Academy, class of 2028</span></li>
+          <li><span class="label">Founder</span><span>Exeter Quantum Computing Club</span></li>
+          <li><span class="label">Research</span><span>Quantum error correction and quantum sensing</span></li>
+          <li><span class="label">First paper</span><span>Predicting failures in a noisy error-correcting code with a neural network</span></li>
+          <li><span class="label">Current work</span><span>Adaptive Error-Corrected Quantum Sensing Under Nonstationary Noise: An Application to Human Biomagnetic Signals</span></li>
+        </ul>
+        <a class="li-btn" href="https://www.linkedin.com/in/ashton-reddy/" target="_blank" rel="noopener">Follow Ashton on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="listen">
+    <div class="wrap">
+      <div class="listen">
+        <div class="cover" role="img" aria-label="QImpact cover art">
+          <svg viewBox="0 0 300 300">
+            <defs><linearGradient id="g-cov" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#13233b"/><stop offset="1" stop-color="#0b1626"/></linearGradient></defs>
+            <rect width="300" height="300" fill="url(#g-cov)"/>
+            <circle cx="150" cy="138" r="78" fill="none" stroke="#4cc9f0" stroke-width="18"/>
+            <path d="M188 176l44 44" stroke="#4cc9f0" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="150" cy="138" r="10" fill="#9fe8ff"/>
+            <ellipse cx="150" cy="138" rx="46" ry="16" fill="none" stroke="#9fe8ff" stroke-width="2.5" transform="rotate(-30 150 138)"/>
+            <text x="150" y="268" text-anchor="middle" font-family="Sora, sans-serif" font-weight="800" font-size="34" fill="#eef2f8" letter-spacing="-1">QImpact</text>
+          </svg>
+        </div>
+        <div>
+          <span class="label">Listen</span>
+          <h2>On every podcast app from January 12, 2027</h2>
+          <p class="intro">Full episodes on video and audio. Short clips every week on LinkedIn, YouTube Shorts and Instagram.</p>
+          <div class="platforms"><span>Apple Podcasts</span><span>Spotify</span><span>YouTube</span><span>Amazon Music</span></div>
+        </div>
+      </div>
+
+      <div class="contact" id="contact">
+        <div class="box accent">
+          <h3>Be a guest</h3>
+          <p>You build, research, fund or regulate a quantum technology with a real-world use. Send a two-line pitch: the problem it solves and where it sits on the Impact Clock.</p>
+          <div class="email"><code>hello@qimpact.fm</code><button class="copy" type="button">Copy</button></div>
+        </div>
+        <div class="box accent2">
+          <h3>Partners and press</h3>
+          <p>Universities, student quantum clubs, conferences and media: we trade episodes, interviews and recordings at events.</p>
+          <div class="email"><code>hello@qimpact.fm</code><button class="copy" type="button">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>QImpact.fm</b> · How quantum technologies create real-world impact</span>
+    <span>© 2026 QImpact.fm</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var code = b.previousElementSibling, t = code.textContent;
+    var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(code);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = 'Selected';
+    };
+    try { navigator.clipboard.writeText(t).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+</script>
+</body>
+</html>
